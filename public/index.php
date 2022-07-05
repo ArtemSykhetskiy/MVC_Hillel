@@ -6,10 +6,19 @@ require_once BASE_URL. '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable(BASE_URL);
 $dotenv->load();
 
+use App\Models\User;
+
+if (!session_id()) {
+    session_start();
+
+}
+
+
 try{
     $router = new \Core\Router();
 
     require_once BASE_URL . '/routes/web.php';
+
 
     if(!preg_match('/assets/i', $_SERVER['REQUEST_URI']))
     {
