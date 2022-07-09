@@ -20,7 +20,7 @@ try{
     require_once BASE_URL . '/routes/web.php';
 
 
-    if(!preg_match('/assets/i', $_SERVER['REQUEST_URI']))
+    if(!preg_match('/assets/i', $_SERVER['REQUEST_URI']) || !preg_match('/admin/i', $_SERVER['REQUEST_URI']))
     {
         $router->dispatch($_SERVER['REQUEST_URI']);
     }

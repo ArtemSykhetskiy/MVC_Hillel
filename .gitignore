@@ -2,4 +2,6 @@
 /vendor/
 .env
 /vendor
-
+public/admin/img
+public/assets/images
+public/assets/imag

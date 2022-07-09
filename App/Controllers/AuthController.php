@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         if ($validator->validate($fields) && $user = $validator->checkEmailOnExists($fields['email'])) {
             if ($validator->verifyPassword($fields['password'], $user->password)) {
-                SessionHelper::setUserData($user->id);
+                SessionHelper::setUserData($user->id, $user->name);
                 redirect();
             }
         }

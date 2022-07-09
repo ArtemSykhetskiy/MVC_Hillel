@@ -57,9 +57,6 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="<?= SITE_URL ?>" class="nav-link active ">Home</a></li>
                     <li class="nav-item"><a href="<?= SITE_URL . '/posts' ?>" class="nav-link ">Blog</a></li>
-                    <li class="nav-item"><a href="<?= SITE_URL . '/profile'?>" class="nav-link ">Profile</a></li>
-                    <li class="nav-item"><a href="<?= SITE_URL . '/contacts'?>" class="nav-link ">Contacts</a></li>
-
                    <?php if(!\App\Helpers\SessionHelper::isUserLoggedIn()): ?><li class="nav-item"><a href="<?= SITE_URL . '/login' ?>" class="nav-link ">Log in</a> </li><?php endif;?>
 
                     <?php if(!\App\Helpers\SessionHelper::isUserLoggedIn()): ?><li class="nav-item"><a href="<?= SITE_URL . '/registration'?>" class="nav-link ">Registration</a></li><?php endif;?>

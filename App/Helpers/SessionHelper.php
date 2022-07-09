@@ -14,16 +14,23 @@ class SessionHelper
         return $_SESSION['user_data']['id'];
     }
 
-    public static function setUserData($id, ...$args)
+    public static function setUserData($id, $name,  ...$args)
     {
         $_SESSION['user_data'] = array_merge([
-            'id' => $id
+            'id' => $id,
+            'name' => $name
         ], $args);
+    }
+
+    public static function getUserName(){
+        return $_SESSION['user_data']['name'];
     }
 
     public static function destroy()
     {
-        session_destroy();
-        redirect();
+        if(session_id()){
+            session_destroy();
+        }
+
     }
 }

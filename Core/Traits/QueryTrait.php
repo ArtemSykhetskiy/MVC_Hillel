@@ -20,6 +20,12 @@ trait QueryTrait
         return static::connect()->query($query)->fetchAll(PDO::FETCH_CLASS, static::class);
     }
 
+    public static function limit($limit)
+    {
+        $query = "SELECT * FROM " . static::$tableName . " LIMIT " . $limit;
+        return static::connect()->query($query)->fetchAll(PDO::FETCH_CLASS, static::class);
+    }
+
     public static function find(int $id)
     {
         $query = "SELECT * FROM " . static::$tableName . " WHERE id = :id";
@@ -97,25 +103,23 @@ trait QueryTrait
      * @param array fields
      * @param int id
      */
-    public static function update($fields, $id)
+    public function update(array $data)
     {
-        $params = [];
-        $query = "UPDATE " . static::$tableName . " SET ";
-        foreach ($fields as $key => $value){
-            $params[] = "{$value} = :{$value}";
+        if (!isset($this->id)) {
+            return $this;
         }
-        $query.= implode(',' , $params);
-        $query .= " WHERE id=:id";
 
+        $query = "UPDATE " . static::$tableName . ' SET ' . static::buildPlaceholders($data) . " WHERE id=:id";
         $stmt = static::connect()->prepare($query);
-        foreach ($fields as $key => $value) {
+
+        foreach ($data as $key => $value) {
             $stmt->bindValue(":{$key}", $value);
         }
 
-        $stmt->bindValue('id', $id, PDO::PARAM_INT);
-
+        $stmt->bindValue('id', $this->id, PDO::PARAM_INT);
         $stmt->execute();
-        return static::find($id);
+
+        return static::find($this->id);
     }
 
     public static function delete(int $id) : bool
@@ -138,4 +142,23 @@ trait QueryTrait
             'placeholders' =>  implode(', ', $placeholders)
         ];
     }
+    private static function buildPlaceholders(array $data): string
+    {
+        $ps = [];
+
+        foreach ($data as $key => $value) {
+            $ps[] = " {$key}=:{$key}";
+        }
+
+        return implode(', ', $ps);
+    }
+
+    public static function qntyRows(string $tableName)
+    {
+        $query = "SELECT COUNT(id) FROM $tableName";
+        return static::connect()->query($query)->fetch();
+    }
+
+
 }
+
